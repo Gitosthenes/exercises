@@ -1,11 +1,12 @@
 from faker import Faker
 from random import shuffle, randint
 
+# Change number of pairs to generate here:
 NUM_PAIRS = 10
 
 """ Linked List Implementation """
-
-
+# Used over lists to optimize frequent
+# removal of first element.
 class Link:
 
     def __init__(self, first, rest=None):
@@ -38,8 +39,8 @@ class Student:
 
 
 """ Gale-Shapely Algorithm """
-
-
+# Produces a stable set of matches between two sets
+# of entities (in this case companies and students)
 def generate_matches(companies):
     while(not_done(companies)):
         for comp in companies:
@@ -63,13 +64,15 @@ def generate_matches(companies):
 
 """ Helper Functions """
 
-
+# Recursively converts any list into a custom Linked List
 def list_to_ll(lst):
     if len(lst) == 1:
         return Link(lst[0])
     return Link(lst[0], list_to_ll(lst[1:]))
 
-
+# Generates a list of randomized names using Faker. The 'func' parameter
+# determines what kind of names to generate.
+# https://faker.readthedocs.io/en/master/
 def generate_name_list(func):
     count = NUM_PAIRS
     name_lst = []
@@ -83,7 +86,7 @@ def generate_name_list(func):
 
     return name_lst
 
-
+# Returns true if any company has no current tenative pairing; false otherwise
 def not_done(companies):
     result = False
     for comp in companies:
@@ -92,7 +95,11 @@ def not_done(companies):
             break
     return result
 
-
+# Verifies that all matches made are truly stable
+# Returns False if, for any 2 pairs the following is true:
+#   - The company from pair A prefers the student from pair B over the student they are currently paired with.
+#   - The Student from pair B prefers the company from pair A over the company they are currently paired with.
+#   - And vice-versa 
 def check_matches(companies):
     stable = True
     for i in range(len(companies)):
@@ -115,7 +122,7 @@ def check_matches(companies):
 
     return stable
 
-
+# Controller function where program begins.
 def main():
     fake = Faker()
 
@@ -137,7 +144,7 @@ def main():
         prospects = list_to_ll(students)
         companies.append(Company(comp, prospects))
 
-    # Run GS algorithm
+    # Run G.S. algorithm
     generate_matches(companies)
 
     # Show results:
