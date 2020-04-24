@@ -1,3 +1,8 @@
+"""
+Custom Implemetation of the Gale-Shapley Algorithm to 
+produce stable matches between companies and prospective students.
+"""
+
 from faker import Faker
 from random import shuffle, randint
 
