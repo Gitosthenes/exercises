@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${workspaceFolder}/${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Test<exercises_2d19e70a>",
+            "request": "launch",
+            "mainClass": "DataStructures.Test",
+            "projectName": "exercises_2d19e70a"
+        }
+    ]
+}
