@@ -23,16 +23,71 @@ class Tests {
             map.put(keys[i], vals[i]);
             assertEquals(vals[i], map.get(keys[i]));
         }
+        assertEquals(keys.length, map.size());
+    }
+
+    @Test
+    void deleteTest() {
+        //Initialize variables
+        MyHashMap<String, Integer> map = new MyHashMap<>();
+        int strLen = 5;
+        int numEntries = 20;
+        String[] keys = new String[numEntries];
+
+        //Insert entries and keep track of keys used
+        for(int i = 0; i < numEntries; i++){
+            String randKey = getRandString(strLen);
+            map.put(randKey, i);
+            keys[i] = randKey;
+        }
+
+        //Delete half of the entries from the map
+        for(int i = 0; i < numEntries; i += 2){
+            map.delete(keys[i]);
+        }
+
+        //Test for all keys, which should either have a value (i) or be null (deleted earlier)
+        for(int i = 0; i < numEntries; i++) {
+            if(i % 2 == 0) {
+                assertEquals(null, map.get(keys[i]));
+            } else {
+                assertEquals(i, map.get(keys[i]));
+            }
+        }
+
+        //Test for correct size
+        assertEquals(numEntries/2, map.size());
     }
 
     @Test
     void loadFactorTest() {
-        MyHashMap<Integer, Integer> map = new MyHashMap<>();
-        for(int i = 0; i < 10000; i++){
-            map.put(i, i);
+        MyHashMap<String, Integer> map = new MyHashMap<>();
+        int strLen = 20;
+        int numEntries = 10000;
+        String[] keys = new String[numEntries];
+
+        for(int i = 0; i < numEntries; i++){
+            String randKey = getRandString(strLen);
+            map.put(randKey, i);
+            keys[i] = randKey;
         }
-        for(int i = 0; i < 10000; i++){
-            assertEquals(i, map.get(i));
+        for(int i = 0; i < numEntries; i++){
+            assertEquals(i, map.get(keys[i]));
         }
+        assertEquals(numEntries, map.size());
+    }
+
+    String getRandString(int length) {
+        String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        + "0123456789"
+                        + "abcdefghijklmnopqrstuvxyz";
+        StringBuilder sb = new StringBuilder(length);
+
+        for(int i = 0; i < length; i++) {
+            int idx = (int) (alpha.length() * Math.random());
+            sb.append(alpha.charAt(idx));
+        }
+
+        return sb.toString();
     }
 }
