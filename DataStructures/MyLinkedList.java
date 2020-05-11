@@ -6,8 +6,7 @@ class MyLinkedList<T> {
     private int mSize;
 
     public MyLinkedList() {
-        mHead = null;
-        mTail = null;
+        mHead = mTail = new Node(null);
         mSize = 0;
     }
 
@@ -23,24 +22,34 @@ class MyLinkedList<T> {
     }
 
     public void insertTail(final T tData) {
+        Node newNode = new Node(tData);
         if(mSize == 0) {
-            mHead = mTail = new Node(tData);
+            mHead = mTail = newNode;
         } else {
-            mTail.setNext(new Node(tData));
+            newNode.setPrev(mTail);
+            mTail = newNode;
         }
         mSize++;
     }
 
-    public void removeHead() { 
-        mHead = mHead.getNext();
-        mHead.setPrev(null);
-        mSize--;
+    public void removeHead() {
+        if(mHead != null) {//If list is empty, don'd do anything
+            mHead = mHead.getNext();
+            if(mHead != null) {//If list had only 1 element, no need to update pointers
+                mHead.setPrev(null);
+            }
+            mSize--;
+        }
     }
 
     public void removeTail() {
-        mTail = mTail.getPrev();
-        mTail.setNext(null);
-        mSize--;
+        if(mTail != null) {//If list is empty, don'd do anything
+            mTail = mTail.getPrev();
+            if(mTail != null) {//If list had only 1 element, no need to update pointers
+                mTail.setNext(null);
+            }
+            mSize--;
+        }
     }
 
     public T getHead() { return mHead.getData(); }

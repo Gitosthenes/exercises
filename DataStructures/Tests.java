@@ -6,15 +6,19 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.junit.jupiter.api.Test;
 
 class Tests {
+    /*******************************************************
+     *                  HASHMAP TESTS                       
+     * *****************************************************/
+    
     @Test
-    void creationTest() {
+    void hmTestCreation() {
         MyHashMap<String, Integer> map = new MyHashMap<>();
         assertNotEquals(null, map);
         assertEquals(0, map.size());
     }
 
     @Test
-    void putAndGetTest() {
+    void hmTestPutAndGet() {
         MyHashMap<Double, Float> map = new MyHashMap<>();
         double[] keys = new double[]{2.2987654d, Double.MIN_VALUE, 56.43243d, -1000.44d, 321321d};
         float[] vals = new float[]{32.23f, -5666.1111f, 6f, 0.000000001f, Float.MAX_VALUE};
@@ -27,7 +31,7 @@ class Tests {
     }
 
     @Test
-    void deleteTest() {
+    void hmTestDelete() {
         //Initialize variables
         MyHashMap<Integer, Integer> map = new MyHashMap<>();
         int numEntries = 500;
@@ -55,7 +59,7 @@ class Tests {
     }
 
     @Test
-    void loadFactorTest() {
+    void hmTestLoadFactor() {
         //Initialize variables
         MyHashMap<String, Integer> map = new MyHashMap<>();
         int strLen = 20;
@@ -94,7 +98,52 @@ class Tests {
         assertEquals(numEntries/2, map.size());
     }
 
-    String getRandString(int length) {
+    /*******************************************************
+     *                  LINKED LIST TESTS
+     * *****************************************************/
+
+     @Test
+     void llTestCreation() {
+         MyLinkedList<String> ll = new MyLinkedList<>();
+         assertEquals(0, ll.size());
+         assertEquals(null, ll.getHead());
+         assertEquals(null, ll.getTail());
+     }
+
+     @Test
+     void llTestInsertAndRemove() {
+        MyLinkedList<String> ll = new MyLinkedList<>();
+        int numEntries = 500;
+        int strLen = 20;
+        String[] heads = new String[numEntries];
+        String[] tails = new String[numEntries];
+
+        for(int i = 0; i < numEntries; i++) {
+            String rand = getRandString(strLen);
+            ll.insertHead(rand);
+            heads[i] = rand;
+            assertEquals(rand, ll.getHead());
+
+            rand = getRandString(strLen);
+            ll.insertTail(rand);
+            tails[i] = rand;
+            assertEquals(rand, ll.getTail());
+
+            assertEquals((i+1)*2, ll.size());
+        }
+
+        for(int i = numEntries-1; i >= 0; i--) {
+            assertEquals(heads[i], ll.getHead());
+            assertEquals(tails[i], ll.getTail());
+
+            ll.removeHead();
+            ll.removeTail();
+        }
+
+        assertEquals(0, ll.size());
+     }
+
+    private String getRandString(int length) {
         String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         + "0123456789"
                         + "abcdefghijklmnopqrstuvxyz";
