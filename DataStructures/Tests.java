@@ -1,11 +1,93 @@
 package DataStructures;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
 class Tests {
+
+    /*******************************************************
+     *                  ARRAY LIST TESTS
+     * *****************************************************/
+
+     @Test
+    void alTestCreation() {
+        MyArrayList<Integer> al = new MyArrayList<>();
+        assertEquals(0, al.size());
+    }
+
+    @Test
+    void alTestAddAndGet() {
+        MyArrayList<Integer> al = new MyArrayList<>();
+        int numElements = 256;
+
+        for(int i = 0; i < numElements; i++) {
+            al.add(i);
+        }
+        assertEquals(numElements, al.size());
+
+        for(int i = 0; i < numElements; i++) {
+            assertEquals(i, al.get(i));
+        }
+        al.add(numElements-1, 0);
+        assertEquals(0, al.get(numElements-1));
+
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            al.add(numElements, 0);
+        });
+        assertThrows(IndexOutOfBoundsException.class, () -> {
+            al.get(numElements);
+        });
+    }
+
+
+    /*******************************************************
+     *                  LINKED LIST TESTS
+     * *****************************************************/
+
+    @Test
+    void llTestCreation() {
+        MyLinkedList<String> ll = new MyLinkedList<>();
+        assertEquals(0, ll.size());
+        assertEquals(null, ll.getHead());
+        assertEquals(null, ll.getTail());
+    }
+
+    @Test
+    void llTestInsertAndRemove() {
+       MyLinkedList<String> ll = new MyLinkedList<>();
+       int numEntries = 500;
+       int strLen = 20;
+       String[] heads = new String[numEntries];
+       String[] tails = new String[numEntries];
+
+       for(int i = 0; i < numEntries; i++) {
+           String rand = getRandString(strLen);
+           ll.insertHead(rand);
+           heads[i] = rand;
+           assertEquals(rand, ll.getHead());
+
+           rand = getRandString(strLen);
+           ll.insertTail(rand);
+           tails[i] = rand;
+           assertEquals(rand, ll.getTail());
+
+           assertEquals((i+1)*2, ll.size());
+       }
+
+       for(int i = numEntries-1; i >= 0; i--) {
+           assertEquals(heads[i], ll.getHead());
+           assertEquals(tails[i], ll.getTail());
+
+           ll.removeHead();
+           ll.removeTail();
+       }
+
+       assertEquals(0, ll.size());
+    }
+
     /*******************************************************
      *                  HASHMAP TESTS                       
      * *****************************************************/
@@ -97,51 +179,6 @@ class Tests {
         //Test for correct size again
         assertEquals(numEntries/2, map.size());
     }
-
-    /*******************************************************
-     *                  LINKED LIST TESTS
-     * *****************************************************/
-
-     @Test
-     void llTestCreation() {
-         MyLinkedList<String> ll = new MyLinkedList<>();
-         assertEquals(0, ll.size());
-         assertEquals(null, ll.getHead());
-         assertEquals(null, ll.getTail());
-     }
-
-     @Test
-     void llTestInsertAndRemove() {
-        MyLinkedList<String> ll = new MyLinkedList<>();
-        int numEntries = 500;
-        int strLen = 20;
-        String[] heads = new String[numEntries];
-        String[] tails = new String[numEntries];
-
-        for(int i = 0; i < numEntries; i++) {
-            String rand = getRandString(strLen);
-            ll.insertHead(rand);
-            heads[i] = rand;
-            assertEquals(rand, ll.getHead());
-
-            rand = getRandString(strLen);
-            ll.insertTail(rand);
-            tails[i] = rand;
-            assertEquals(rand, ll.getTail());
-
-            assertEquals((i+1)*2, ll.size());
-        }
-
-        for(int i = numEntries-1; i >= 0; i--) {
-            assertEquals(heads[i], ll.getHead());
-            assertEquals(tails[i], ll.getTail());
-
-            ll.removeHead();
-            ll.removeTail();
-        }
-
-        assertEquals(0, ll.size());
-     }
 
     private String getRandString(int length) {
         String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
