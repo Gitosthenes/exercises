@@ -12,6 +12,8 @@ class MyHashMap<K, V>{
     private static final int INITIAL_CAPACITY = 16;
     private static final double LOAD_FACTOR_MAX = 0.75;
     private static final double LOAD_FACTOR_MIN = 0.25;
+    private static final String INCREASE = "+";
+    private static final String DECREASE = "-";
 
     private Entry<K, V>[] mBuckets;
     private int mSize;
@@ -61,7 +63,7 @@ class MyHashMap<K, V>{
                 mSize++;
             }
         }
-        if((double)mSize/mBuckets.length > LOAD_FACTOR_MAX) { increaseSize(); }
+        if((double)mSize/mBuckets.length > LOAD_FACTOR_MAX) { changeSize(INCREASE); }
     }
 
     /**
@@ -112,7 +114,7 @@ class MyHashMap<K, V>{
                 //Decrease size of hashmap if necessary
                 if(mBuckets.length >= INITIAL_CAPACITY
                 && (double)mSize/mBuckets.length < LOAD_FACTOR_MIN) {
-                    decreaseSize();
+                    changeSize(DECREASE);
                 }
 
                 return;
@@ -128,14 +130,22 @@ class MyHashMap<K, V>{
     public int size() { return mSize; }
 
     /**
-     * Doubles the size of the array holding the entry buckets when the number
-     * of entries exceeds 75% the number of indexes in the array.
+     * Changes the size of the array holding the entry buckets to better
+     * fit the amount of entries present in the array.
      * 
-     * Requires re-hashing all entries to make sure indexes match new array size.
+     * Doubles the size of the array when the number of entries exceeds
+     * 75% the number of indexes in the array.
+     * 
+     * Halves the size of the array when the number of entries is less
+     * than 25% of the total capacity of the array. Will not shrink the
+     * array to less than 16 buckets.
+     * 
+     * Requires re-hashing all entries to make sure indexes match new
+     * array size.
      */
     @SuppressWarnings("unchecked")
-    private void increaseSize() {
-        int newCapacity = mBuckets.length * 2;
+    private void changeSize(String tOp) {
+        int newCapacity = INCREASE.equals(tOp) ? mBuckets.length*2 : mBuckets.length/2;
         Entry<K, V>[] newBuckets = (Entry<K, V>[]) new Entry[newCapacity];
 
         for(int i = 0; i < mBuckets.length; i++) {
@@ -158,18 +168,6 @@ class MyHashMap<K, V>{
             }
         }
         mBuckets = newBuckets;
-    }
-
-    /**
-     * Halves the size of the array holding the enry buckets when the number
-     * of entries is less than 25% of the total capacity of the array.
-     * 
-     * Will not shrink the array to less than 16 buckets.
-     * 
-     * Requires re-hashing all entries to make sure indexes match new array size.
-     */
-    private void decreaseSize() {
-
     }
 }
 
