@@ -5,29 +5,42 @@ public class MyArrayList<T> {
 
     private T[] mArray;
     private int mSize;
-    private int mEndIdx;
 
     @SuppressWarnings("unchecked")
     public MyArrayList() {
         mArray = (T[]) new Object[INITIAL_CAPACITY];
         mSize = 0;
-        mEndIdx = 0;
     }
 
     public void add(final T tData) {
-        if(mEndIdx > mArray.length - 1) { increaseSize(); }
-
-        mArray[mEndIdx] = tData;
-        mEndIdx++;
+        if(mSize == mArray.length) { increaseSize(); }
+        mArray[mSize] = tData;
         mSize++;
     }
 
     public void add(int tIndex, final T tData) {
+        if(tIndex < 0 || tIndex > mSize) { throw new IndexOutOfBoundsException(); }
+        if(mSize >= mArray.length) { increaseSize(); }
+        
+        for(int i = mSize; tIndex < i; i--) {
+            mArray[i] = mArray[i-1];
+        }
         mArray[tIndex] = tData;
+        mSize++;
     }
 
     public T get(int tIndex) {
+        if(tIndex < 0 || tIndex > mSize) { throw new IndexOutOfBoundsException(); }
         return mArray[tIndex];
+    }
+
+    public void remove(int tIndex) {
+        if(tIndex < 0 || tIndex > mSize) { throw new IndexOutOfBoundsException(); }
+
+        for(int i = tIndex; i < mSize - 1; i++) {
+            mArray[i] = mArray[i + 1];
+        }
+        mSize--;
     }
 
     public int size() {
