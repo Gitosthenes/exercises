@@ -1,5 +1,8 @@
+package DataStructures;
+
 /**
- * Custom HashMap implementation with support for both generic keys and values.
+ * Custom HashMap implementation with support for generic keys/value pairs,
+ * and automatic resizing.
  * @param <K>   key
  * @param <V>   value
  */
@@ -7,12 +10,16 @@ class MyHashMap<K, V>{
 
     /** Constants & Instance Fields */
     private static final int INITIAL_CAPACITY = 16;
+    private static final double LOAD_FACTOR = 0.75;
 
     private Entry<K, V>[] mBuckets;
     private int mSize;
 
     /** Overloaded Constructors */
-    public MyHashMap() { this(INITIAL_CAPACITY); }
+    public MyHashMap() {
+        this(INITIAL_CAPACITY);
+    }
+
     @SuppressWarnings("unchecked")
     public MyHashMap(final int tCapacity) {
         mBuckets = (Entry<K, V>[]) new Entry[tCapacity];
@@ -53,6 +60,7 @@ class MyHashMap<K, V>{
                 mSize++;
             }
         }
+        resizeIfNeeded();
     }
 
     /**
@@ -81,6 +89,24 @@ class MyHashMap<K, V>{
      * @return  the number of keys currently in the HashMap.
      */
     public int size() { return mSize; }
+
+    /**
+     * Doubles the size of the array holding the entry buckets when the number 
+     * of entries exceeds 75% the number of indexes in the array.
+     */
+    @SuppressWarnings("unchecked")
+    private void resizeIfNeeded() {
+        if(mSize/mBuckets.length > LOAD_FACTOR) {
+            int newCapacity = mBuckets.length * 2;
+            Entry<K, V>[] newBuckets = (Entry<K, V>[]) new Entry[newCapacity];
+
+            for(int i = 0; i < mBuckets.length; i++) {
+                newBuckets[i] = mBuckets[i];
+            }
+
+            mBuckets = newBuckets;
+        }
+    }
 }
 
 /**

@@ -1,3 +1,5 @@
+package DataStructures;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -20,6 +22,17 @@ class Tests {
         for(int i = 0; i < keys.length; i++) {
             map.put(keys[i], vals[i]);
             assertEquals(vals[i], map.get(keys[i]));
+        }
+    }
+
+    @Test
+    void loadFactorTest() {
+        MyHashMap<Integer, Integer> map = new MyHashMap<>();
+        for(int i = 0; i < 10000; i++){
+            map.put(i, i);
+        }
+        for(int i = 0; i < 10000; i++){
+            assertEquals(i, map.get(i));
         }
     }
 }
