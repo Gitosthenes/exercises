@@ -98,6 +98,16 @@ class Tests {
        assertEquals(0, ll.size());
     }
 
+    @Test
+    void llTestGet() {
+        MyLinkedList<Integer> ll = new MyLinkedList<>();
+        for(int i = 0; i < 500; i++) {
+            ll.insertTail(i);
+            assertEquals(i, ll.get(i));
+        }
+
+    }
+
     /*******************************************************
      *                  HASHMAP TESTS                       
      * *****************************************************/

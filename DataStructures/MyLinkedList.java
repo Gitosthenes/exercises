@@ -16,6 +16,7 @@ class MyLinkedList<T> {
             mHead = mTail = newNode;
         } else {
             newNode.setNext(mHead);
+            mHead.setPrev(newNode);
             mHead = newNode;
         }
         mSize++;
@@ -27,6 +28,7 @@ class MyLinkedList<T> {
             mHead = mTail = newNode;
         } else {
             newNode.setPrev(mTail);
+            mTail.setNext(newNode);
             mTail = newNode;
         }
         mSize++;
@@ -50,6 +52,17 @@ class MyLinkedList<T> {
             }
             mSize--;
         }
+    }
+
+    public T get(int tIndex) {
+        if(tIndex < 0 || tIndex >= mSize) {throw new IndexOutOfBoundsException(); }
+        
+        Node currNode = mHead;
+        for(int i = 0; i < tIndex; i++) {
+            currNode = currNode.getNext();
+        }
+        
+        return currNode.getData();
     }
 
     public T getHead() { return mHead.getData(); }
