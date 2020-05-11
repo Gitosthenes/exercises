@@ -31,14 +31,24 @@ class Tests {
         for(int i = 0; i < numElements; i++) {
             assertEquals(i, al.get(i));
         }
-        al.add(numElements-1, 0);
-        assertEquals(0, al.get(numElements-1));
+        al.add(128, 0);
+        assertEquals(0, al.get(128));
+
+        for(int i = 129; i < al.size(); i++) {
+            assertEquals(i - 1, al.get(i));
+        }
+
+        al.remove(128);
+        al.add(256);
+        for(int i = 0; i < al.size(); i++) {
+            assertEquals(i, al.get(i));
+        }
 
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            al.add(numElements, 0);
+            al.add(al.size()+1, 0);
         });
         assertThrows(IndexOutOfBoundsException.class, () -> {
-            al.get(numElements);
+            al.get(al.size()+1);
         });
     }
 
