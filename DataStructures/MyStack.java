@@ -13,7 +13,7 @@ public class MyStack<T> {
 
     public void push(final T tData) {
         Node newHead = new Node(tData);
-        newHead.setNext(mHead);
+        newHead.nNext = mHead;
         mHead = newHead;
         mSize++;
     }
@@ -21,8 +21,8 @@ public class MyStack<T> {
     public T pop() {
         if(mSize <= 0) {throw new EmptyStackException();}
 
-        T result = mHead.getData();
-        mHead = mHead.getNext();
+        T result = mHead.nData;
+        mHead = mHead.nNext;
         mSize--;
         return result;
     }
@@ -30,23 +30,18 @@ public class MyStack<T> {
     public T peek() { 
         if(mSize <= 0) {throw new EmptyStackException();}
 
-        return mHead.getData();
+        return mHead.nData;
     }
 
     public int size() { return mSize; }
 
     private class Node {
-        private T mData;
-        private Node mNext;
+        private T nData;
+        private Node nNext;
 
-        public Node(final T tData) {
-            mData = tData;
-            mNext = null;
+        private Node(final T tData) {
+            nData = tData;
+            nNext = null;
         }
-
-        public T getData() { return mData; }
-        public Node getNext() { return mNext; }
-
-        public void setNext(final Node tNext) { mNext = tNext; }
     }
 }
