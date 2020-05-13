@@ -4,6 +4,10 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+import org.junit.internal.runners.statements.ExpectException;
 import org.junit.jupiter.api.Test;
 
 class Tests {
@@ -105,7 +109,46 @@ class Tests {
             ll.insertTail(i);
             assertEquals(i, ll.get(i));
         }
+    }
 
+    /*******************************************************
+     *                   STACK TESTS                       
+     * *****************************************************/
+
+    @Test
+    void stTestCreation() {
+        MyStack<String> s = new MyStack<>();
+        assertNotEquals(null, s);
+        assertEquals(0, s.size());
+    }
+
+    @Test
+    void stTestMethods() {
+        MyStack<String> myS = new MyStack<>();
+        Stack<String> otherS = new Stack<>();
+        int numEntries = 500;
+        int strLen = 20;
+        
+        for(int i = 0; i < numEntries; i++) {
+            String rand = getRandString(strLen);
+            myS.push(rand);
+            otherS.push(rand);
+
+            assertEquals(otherS.size(), myS.size());
+            assertEquals(rand, myS.peek());
+        }
+
+        for(int i = 0; i < numEntries; i++) {
+            assertEquals(otherS.pop(), myS.pop());
+        }
+
+        assertThrows(EmptyStackException.class, () -> {
+            myS.peek();
+        });
+
+        assertThrows(EmptyStackException.class, () -> {
+            myS.pop();
+        });
     }
 
     /*******************************************************
