@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.EmptyStackException;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.Stack;
 
-import org.junit.internal.runners.statements.ExpectException;
 import org.junit.jupiter.api.Test;
 
 class Tests {
@@ -148,6 +150,51 @@ class Tests {
 
         assertThrows(EmptyStackException.class, () -> {
             myS.pop();
+        });
+    }
+
+    /*******************************************************
+     *                   QUEUE TESTS                       
+     * *****************************************************/
+
+    @Test
+    void qTestCreation() {
+        MyQueue<String> q = new MyQueue<>();
+        assertNotEquals(null, q);
+        assertEquals(0, q.size()); 
+    }
+
+    @Test
+    void qTestMethods() {
+        MyQueue<String> myQ = new MyQueue<>();
+        Queue<String> otherQ = new LinkedList<>();
+        int numEntries = 500;
+        int strLen = 20;
+
+        for(int i = 0; i < numEntries; i++) {
+            String rand = getRandString(strLen);
+            myQ.queue(rand);
+            otherQ.add(rand);
+            assertEquals(otherQ.size(), myQ.size());
+            assertEquals(otherQ.peek(), myQ.peekFront());
+        }
+
+        for(int i = 0; i < numEntries; i++) {
+            assertEquals(otherQ.poll(), myQ.dequeue());
+        }
+
+        assertEquals(0, myQ.size());
+
+        assertThrows(NoSuchElementException.class, () -> {
+            myQ.peekFront();
+        });
+
+        assertThrows(NoSuchElementException.class, () -> {
+            myQ.peekEnd();
+        });
+
+        assertThrows(NoSuchElementException.class, () -> {
+            myQ.dequeue();
         });
     }
 
