@@ -15,8 +15,8 @@ class MyLinkedList<T> {
         if(mSize == 0) {
             mHead = mTail = newNode;
         } else {
-            newNode.setNext(mHead);
-            mHead.setPrev(newNode);
+            newNode.nNext = mHead;
+            mHead.nPrev = newNode;
             mHead = newNode;
         }
         mSize++;
@@ -27,8 +27,8 @@ class MyLinkedList<T> {
         if(mSize == 0) {
             mHead = mTail = newNode;
         } else {
-            newNode.setPrev(mTail);
-            mTail.setNext(newNode);
+            newNode.nPrev = mTail;
+            mTail.nNext = newNode;
             mTail = newNode;
         }
         mSize++;
@@ -36,9 +36,9 @@ class MyLinkedList<T> {
 
     public void removeHead() {
         if(mHead != null) {//If list is empty, don'd do anything
-            mHead = mHead.getNext();
+            mHead = mHead.nNext;
             if(mHead != null) {//If list had only 1 element, no need to update pointers
-                mHead.setPrev(null);
+                mHead.nPrev = null;
             }
             mSize--;
         }
@@ -46,9 +46,9 @@ class MyLinkedList<T> {
 
     public void removeTail() {
         if(mTail != null) {//If list is empty, don'd do anything
-            mTail = mTail.getPrev();
+            mTail = mTail.nPrev;
             if(mTail != null) {//If list had only 1 element, no need to update pointers
-                mTail.setNext(null);
+                mTail.nNext = null;
             }
             mSize--;
         }
@@ -59,32 +59,25 @@ class MyLinkedList<T> {
         
         Node currNode = mHead;
         for(int i = 0; i < tIndex; i++) {
-            currNode = currNode.getNext();
+            currNode = currNode.nNext;
         }
-        
-        return currNode.getData();
+
+        return currNode.nData;
     }
 
-    public T getHead() { return mHead.getData(); }
-    public T getTail() { return mTail.getData(); }
+    public T getHead() { return mHead.nData; }
+    public T getTail() { return mTail.nData; }
     public int size() { return mSize; }
 
     private class Node {
-        private T mData;
-        private Node mPrev;
-        private Node mNext;
+        private T nData;
+        private Node nPrev;
+        private Node nNext;
 
-        public Node(final T tData) {
-            mData = tData;
-            mPrev = null;
-            mNext = null;
+        private Node(final T tData) {
+            nData = tData;
+            nPrev = null;
+            nNext = null;
         }
-
-        public T getData() { return mData; }
-        public Node getPrev() { return mPrev; }
-        public Node getNext() { return mNext; }
-
-        public void setPrev(final Node tPrev) { mPrev = tPrev; }
-        public void setNext(final Node tNext) { mNext = tNext; }
     }
 }
