@@ -303,4 +303,7 @@ class Tests {
 
         return sb.toString();
     }
+
+    @Test
+    void test() {}
 }
